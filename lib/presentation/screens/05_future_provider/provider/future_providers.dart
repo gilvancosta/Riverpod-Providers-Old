@@ -13,6 +13,13 @@ final pokemonIdProvider = StateProvider<int>((ref) {
   return 1;
 });
 
+
+
+
+
+
+
+
 final pokemonProvider =
     FutureProvider.family<String, int>((ref, pokemonId) async {
  // final pokemonId = ref.watch(pokemonIdProvider);
