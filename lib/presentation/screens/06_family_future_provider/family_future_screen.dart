@@ -11,11 +11,11 @@ class FamilyFutureScreen extends ConsumerStatefulWidget {
 }
 
 class FamilyFutureScreenState extends ConsumerState<FamilyFutureScreen> {
-  int podemonId = 1;
-
+  //var pokemonId01 = 0;
   @override
   Widget build(BuildContext context) {
-    final pokemonNameAsync = ref.watch(pokemonProvider(podemonId));
+    final pokemonId02 = ref.watch(pokemonIdStateNotifierProvider);
+    final pokemonNameAsync = ref.watch(pokemonProvider(pokemonId02));
 
     return Scaffold(
       appBar: AppBar(
@@ -38,10 +38,11 @@ class FamilyFutureScreenState extends ConsumerState<FamilyFutureScreen> {
                 heroTag: 'btn-3',
                 child: const Icon(Icons.remove),
                 onPressed: () {
-                  setState(() {
-                    podemonId--;
-                  });
-                  //  ref.read(pokemonIdProvider.notifier).prevPokemon();
+                  ref
+                      .read(pokemonIdStateNotifierProvider.notifier)
+                      .prevPokemon();
+
+                  //  setState(() { pokemonId01--; });
                 },
               ),
               const SizedBox(width: 10),
@@ -49,11 +50,11 @@ class FamilyFutureScreenState extends ConsumerState<FamilyFutureScreen> {
                 heroTag: 'btn-2',
                 child: const Icon(Icons.add),
                 onPressed: () {
-                  setState(() {
-                    podemonId++;
-                  });
+                  //  setState(() { pokemonId01++; });
 
-                  // ref.read(pokemonIdProvider.notifier).nextPokemon();
+                  ref
+                      .read(pokemonIdStateNotifierProvider.notifier)
+                      .nextPokemon();
                 },
               ),
             ],
