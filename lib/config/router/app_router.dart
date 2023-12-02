@@ -2,6 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_app/presentation/screens/screens.dart';
 
+import '../../presentation/screens/01_provider/example02/provider_screen02.dart';
+
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(routes: [
     GoRoute(
@@ -10,7 +12,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     ),
     GoRoute(
       path: '/provider',
-      builder: (context, state) => const ProviderScreen(),
+      builder: (context, state) => const ProviderScreen02(),
     ),
     GoRoute(
       path: '/provider-router',

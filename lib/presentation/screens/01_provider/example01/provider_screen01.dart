@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'provider/simple_provider01.dart';
 
 
-class ProviderScreen extends ConsumerWidget {
-  const ProviderScreen({super.key});
+class ProviderScreen01 extends ConsumerWidget {
+  const ProviderScreen01({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
