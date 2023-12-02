@@ -51,7 +51,7 @@ class _TodoView extends ConsumerWidget {
           ],
           selected: <TodoFilter>{currentFilter},
           onSelectionChanged: (value) {
-            //  ref.read(todoFilterProvider.notifier).state = value.first;
+            ref.read(todoFilterProvider.notifier).state = value.first;
           },
         ),
         const SizedBox(height: 5),
@@ -77,5 +77,3 @@ class _TodoView extends ConsumerWidget {
     );
   }
 }
-
-

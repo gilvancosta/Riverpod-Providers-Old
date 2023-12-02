@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
@@ -7,46 +8,44 @@ import '../../04_todo/provider/todo_providers.dart';
 
 const uuid = Uuid();
 
-//enum TodoFilter { all, completed, pending }
-
-final todosStateNotifierProvider =
-    StateNotifierProvider<TodoNotifier, List<Todo>>((ref) {
-  return TodoNotifier();
+final todoChangeNotifierProvider =
+    ChangeNotifierProvider<TodoChangeNotifier>((ref) {
+  return TodoChangeNotifier();
 });
 
-class TodoNotifier extends StateNotifier<List<Todo>> {
-  TodoNotifier()
-      : super([
-          Todo(
-            id: uuid.v4(),
-            description: RandomGenerator.getRandomName(),
-            completedAt: null,
-          ),
-          Todo(
-            id: uuid.v4(),
-            description: RandomGenerator.getRandomName(),
-            completedAt: null,
-          ),
-          Todo(
-            id: uuid.v4(),
-            description: RandomGenerator.getRandomName(),
-            completedAt: null,
-          ),
-        ]);
+class TodoChangeNotifier extends ChangeNotifier {
+  List<Todo> todos = <Todo>[
+    Todo(
+      id: uuid.v4(),
+      description: RandomGenerator.getRandomName(),
+      completedAt: null,
+    ),
+    Todo(
+      id: uuid.v4(),
+      description: RandomGenerator.getRandomName(),
+      completedAt: null,
+    ),
+    Todo(
+      id: uuid.v4(),
+      description: RandomGenerator.getRandomName(),
+      completedAt: null,
+    ),
+  ];
 
-  void createTodo() {
-    state = [
-      ...state,
+  void addTodo() {
+    todos = [
+      ...todos,
       Todo(
         id: uuid.v4(),
         description: RandomGenerator.getRandomName(),
         completedAt: null,
       )
     ];
+    notifyListeners();
   }
 
   void toggleDone(String id) {
-    state = state.map((todo) {
+    todos = todos.map((todo) {
       if (todo.id != id) return todo;
       if (todo.done) return todo.copyWith(completedAt: null);
       return todo.copyWith(completedAt: DateTime.now());
@@ -64,26 +63,29 @@ class TodoNotifier extends StateNotifier<List<Todo>> {
           t
     ];
  */
+
+    notifyListeners();
   }
 
-  void delete(Todo todo) {
-    state = state.where((t) => t.id != todo.id).toList();
+  void delete(String todoId) {
+    todos = todos.where((t) => t.id != todoId).toList();
+    notifyListeners();
   }
 }
 
-final filteredGuestProvider = Provider<List<Todo>>((ref) {
+final filteredGuestChangeNotifier = Provider<List<Todo>>((ref) {
   final selectedFilter = ref.watch(todoFilterProvider);
-  final todos = ref.watch(todosStateNotifierProvider);
+  final todoChangeNotifier01 = ref.watch(todoChangeNotifierProvider);
 
 // não precisa usar break, pois o return já sai da função
 // não precisa usar default, pois todos os casos são tratados
 
   switch (selectedFilter) {
     case TodoFilter.all:
-      return todos;
+      return todoChangeNotifier01.todos;
     case TodoFilter.completed:
-      return todos.where((todo) => todo.done).toList();
+      return todoChangeNotifier01.todos.where((todo) => todo.done).toList();
     case TodoFilter.pending:
-      return todos.where((todo) => !todo.done).toList();
+      return todoChangeNotifier01.todos.where((todo) => !todo.done).toList();
   }
 });
